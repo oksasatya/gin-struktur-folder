@@ -3,6 +3,7 @@ package db
 import (
 	"fmt"
 	"gin-struktur-folder/internal/config"
+	"gin-struktur-folder/internal/db/migration"
 	"gin-struktur-folder/pkg/utils"
 	"github.com/sirupsen/logrus"
 	"gorm.io/driver/postgres"
@@ -27,11 +28,7 @@ func InitDB() {
 		logrus.Fatalf("Failed to connect to the database: %v", err)
 	}
 
-	if cfg.AutoMigrate {
-		AutoDrop()
-		AutoMigrate()
-		SeedAll()
-	} else {
-		logrus.Println("Database migration skipped")
+	if err := migration.Migrate(DB); err != nil {
+		logrus.Fatalf("Failed to migrate: %v", err)
 	}
 }
