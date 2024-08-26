@@ -5,25 +5,21 @@ import (
 	"gin-struktur-folder/internal/app/model"
 	"gin-struktur-folder/internal/app/service"
 	"gin-struktur-folder/pkg/utils"
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
-	"net/http"
 )
 
-type UserController interface {
-	Register(c *gin.Context)
-	Login(c *gin.Context)
-}
-
-type userController struct {
+type UserController struct {
 	service service.UserService
 }
 
-func NewUserController(service service.UserService) UserController {
-	return &userController{service: service}
+func NewUserController(service service.UserService) *UserController {
+	return &UserController{service: service}
 }
 
-func (uc *userController) Register(c *gin.Context) {
+func (uc *UserController) Register(c *gin.Context) {
 	var user model.User
 	// bind the request body to the user model
 	if err := c.ShouldBindJSON(&user); err != nil {
@@ -45,7 +41,7 @@ func (uc *userController) Register(c *gin.Context) {
 	}, "User created successfully")
 }
 
-func (uc *userController) Login(c *gin.Context) {
+func (uc *UserController) Login(c *gin.Context) {
 	var loginUser model.LoginUser
 	// bind the request body to the login user model
 	if err := c.ShouldBindJSON(&loginUser); err != nil {

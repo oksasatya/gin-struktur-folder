@@ -4,12 +4,13 @@ import (
 	"gin-struktur-folder/internal/app/controller"
 	"gin-struktur-folder/internal/app/repository"
 	"gin-struktur-folder/internal/app/service"
+
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
 
 type NewController struct {
-	UserController controller.UserController
+	UserController *controller.UserController
 }
 
 // RegisterRoutes is a function to register all routes
